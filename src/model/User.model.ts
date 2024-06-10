@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
+// schemas for mongodb 
 export interface Message extends Document {
   content: String;
   createdAt: Date;
