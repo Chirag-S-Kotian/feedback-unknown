@@ -14,15 +14,15 @@ declare module "next-auth" {
       isVerified?: boolean;
       isAcceptingMessage?: boolean;
       username?: string;
-    } & DefaultSession['user'];
+    } & DefaultSession["user"];
   }
 
-  declare module 'next-auth/jwt'{
+  declare module "next-auth/jwt" {
     interface JWT {
-        _id?: string;
-        isVerified?: boolean;
-        isAcceptingMessage?: boolean;
-        username?: string;
+      _id?: string;
+      isVerified?: boolean;
+      isAcceptingMessage?: boolean;
+      username?: string;
     }
   }
 }
