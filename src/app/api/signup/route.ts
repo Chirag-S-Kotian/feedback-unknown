@@ -32,15 +32,23 @@ export async function POST(request: Request) {
 
     //checking if user already exists by thier email
     if (existingUserByEmail) {
-      return Response.json(
-        {
-          success: false,
-          message: "User Email already exists",
-        },
-        {
-          status: 400,
-        }
-      );
+      if (existingUserByEmail.isVerified) {
+        return Response.json(
+          {
+            success: false,
+            message: "Email already exists",
+          },
+          {
+            status: 400,
+          }
+        );
+      } else {
+        const hashedPassword = await bcryptjs.hash(password, 10);
+        existingUserByEmail.password = hashedPassword;
+        existingUserByEmail.verifyCode = verifyCode;
+        existingUserByEmail.verifyCodeExpiry = new Date(Date.now() + 3600000);
+        await existingUserByEmail.save();
+      }
     } else {
       const hashedPassword = await bcryptjs.hash(password, 10);
       const expiryDate = new Date();
