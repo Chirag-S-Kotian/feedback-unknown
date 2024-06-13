@@ -27,10 +27,9 @@ export async function POST(request: Request) {
     }
 
     //finding user by thier email
-    const existingUserByEmail = await UserModel.findOne({email});
+    const existingUserByEmail = await UserModel.findOne({ email });
     const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
-      const verifyCodeExpiry = new Date();
-      verifyCodeExpiry.setMinutes(verifyCodeExpiry.getMinutes() + 5); 
+
     //checking if user already exists by thier email
     if (existingUserByEmail) {
       return Response.json(
@@ -51,13 +50,13 @@ export async function POST(request: Request) {
         email,
         password: hashedPassword,
         verifyCode,
-        verifyCodeExpiry: Date;
-        isVerified: boolean;
-        isAcceptingMessage: boolean;
-        messages: Message[];
+        verifyCodeExpiry: expiryDate,
+        isVerified: false,
+        isAcceptingMessage: true,
+        messages: [],
       });
       const savedUser = await newUser.save();
-      
+
       const updatedUser = await UserModel.findByIdAndUpdate(
         savedUser._id,
         {
