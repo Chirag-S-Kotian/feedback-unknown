@@ -36,14 +36,14 @@ export async function GET(request: Request) {
       username,
       isVerified: true,
     });
-    if (!existingUserVerifiedUser) {
+    if (existingUserVerifiedUser) {
       return Response.json(
         {
           success: true,
-          message: "Username is already available",
+          message: "Username is already taken",
         },
         {
-          status: 400,
+          status: 200,
         }
       );
     }
