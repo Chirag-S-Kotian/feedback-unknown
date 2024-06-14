@@ -39,7 +39,7 @@ export async function GET(request: Request) {
     if (existingUserVerifiedUser) {
       return Response.json(
         {
-          success: true,
+          success: false,
           message: "Username is already taken",
         },
         {
