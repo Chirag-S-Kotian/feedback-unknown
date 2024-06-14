@@ -10,7 +10,7 @@ export async function sendVerificationEmail(
   try {
     await resend.emails.send({
       to: email,
-      from: "Acme <onboarding@resend.dev>",
+      from: 'dev@chirag.com',
       subject: "Phantom Verification Email",
       react: VerificationEmail({ username, otp: verifyCode }),
     });
