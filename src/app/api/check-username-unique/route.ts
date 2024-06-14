@@ -14,6 +14,7 @@ export async function GET(request: Request) {
     const queryParam = {
       username: searchParams.get("username"),
     };
+
     //validate with zod
     const result = UsernameQuerySchema.safeParse(queryParam);
     if (!result.success) {
@@ -31,41 +32,39 @@ export async function GET(request: Request) {
         }
       );
     }
+
     const { username } = result.data;
-    const existingUserVerifiedUser = await UserModel.findOne({
+
+    const existingVerifiedUser = await UserModel.findOne({
       username,
       isVerified: true,
     });
-    if (existingUserVerifiedUser) {
+
+    if (existingVerifiedUser) {
       return Response.json(
         {
           success: false,
           message: "Username is already taken",
         },
-        {
-          status: 200,
-        }
+        { status: 200 }
       );
     }
+
     return Response.json(
       {
         success: true,
         message: "Username is unique",
       },
-      {
-        status: 200,
-      }
+      { status: 200 }
     );
   } catch (error) {
-    console.error("Error checking username", error);
+    console.error("Error checking username:", error);
     return Response.json(
       {
         success: false,
         message: "Error checking username",
       },
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 }
