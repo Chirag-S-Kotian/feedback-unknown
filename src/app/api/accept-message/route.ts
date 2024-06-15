@@ -23,4 +23,17 @@ export async function POST(request: Request) {
   }
   const userId = user._id;
   const { acceptMessage } = await request.json();
+  try {
+  } catch (error) {
+    console.log("failed to update user status to accept messages");
+    return Response.json(
+      {
+        success: false,
+        message: "failed to update user status to accept messages",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 }
