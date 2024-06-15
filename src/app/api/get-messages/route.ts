@@ -70,5 +70,17 @@ export default async function GET(req: Request) {
         status: 200,
       }
     );
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+
+    return Response.json(
+      {
+        success: false,
+        message: "Error fetching messages",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 }
