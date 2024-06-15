@@ -50,11 +50,12 @@ export async function POST(request: Request) {
       }
     );
   } catch (error) {
-    return new Response(
-      JSON.stringify({
+    console.error("Error sending message", error);
+    return Response.json(
+      {
         success: false,
-        message: error.message,
-      }),
+        message: "Error sending message",
+      },
       {
         status: 500,
       }
