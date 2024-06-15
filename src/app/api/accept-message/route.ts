@@ -3,11 +3,12 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User.model";
 import { User } from "next-auth";
+import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 
 export async function POST(request: Request) {
   await dbConnect();
   const session = await getServerSession(authOptions);
-  const user: User = session?.user;
+  const user: User = session?.user as User;
 
   if (!session || !session.user) {
     return Response.json(
@@ -20,5 +21,6 @@ export async function POST(request: Request) {
       }
     );
   }
-  const userId = user._id
+  const userId = user._id;
+  const { acceptMessage } = await request.json();
 }
