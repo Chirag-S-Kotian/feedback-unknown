@@ -24,6 +24,48 @@ export async function POST(request: Request) {
   const userId = user._id;
   const { acceptMessage } = await request.json();
   try {
+    const UpdatedUser = await UserModel.findByIdAndUpdate(
+      userId,
+      {
+        isAcceptingMessage: acceptMessage,
+      },
+      {
+        new: true,
+      }
+    );
+    if (!UpdatedUser) {
+      return Response.json(
+        {
+          success: false,
+          message: "User not found",
+        },
+        {
+          status: 401,
+        }
+      );
+    }
+    const { error } = acceptMessageSchema.safeParse(acceptMessage);
+    if (error) {
+      return Response.json(
+        {
+          success: false,
+          message: error.message,
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+    user.acceptMessages = acceptMessage;
+    await user.save();
+    return Response.json(
+      {
+        success: true,
+      },
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
     console.log("failed to update user status to accept messages");
     return Response.json(
