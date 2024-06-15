@@ -3,7 +3,6 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User.model";
 import { User } from "next-auth";
-import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 
 export async function POST(request: Request) {
   await dbConnect();
@@ -37,30 +36,18 @@ export async function POST(request: Request) {
       return Response.json(
         {
           success: false,
-          message: "User not found",
+          message: "failed to update user status to accept messages",
         },
         {
-          status: 404,
+          status: 401,
         }
       );
     }
-    const { error } = acceptMessageSchema.safeParse(acceptMessage);
-    if (error) {
-      return Response.json(
-        {
-          success: false,
-          message: error.message,
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-    user.acceptMessages = acceptMessage;
-    await user.save();
     return Response.json(
       {
         success: true,
+        message: "Message acceptance status updated successfully",
+        UpdatedUser,
       },
       {
         status: 200,
