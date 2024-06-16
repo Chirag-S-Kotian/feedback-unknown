@@ -1,5 +1,6 @@
 import { openai } from "@ai-sdk/openai";
 import { StreamingTextResponse, streamText } from "ai";
+import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
 // Allow streaming responses up to 30 seconds
@@ -17,7 +18,18 @@ export async function POST(req: Request) {
     return result.toAIStreamResponse();
   } catch (error) {
     if (error instanceof OpenAI.APIError) {
-        
+      const { name, status, headers, message } = error;
+      return NextResponse.json(
+        {
+          name,
+          status,
+          headers,
+          message,
+        },
+        {
+          status: 400,
+        }
+      );
     } else {
       console.error("An unexpected erroroccured", error);
       throw error;
