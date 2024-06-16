@@ -27,7 +27,7 @@ export async function POST(req: Request) {
           message,
         },
         {
-          status: 400,
+          status,
         }
       );
     } else {
