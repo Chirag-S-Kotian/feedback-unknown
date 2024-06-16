@@ -54,24 +54,30 @@ const page = () => {
     checkUsernameUnique();
   }, [debouncedUsername]);
 
-  const onSubmit = async(data:z.infer<typeof signUpSchema>) =>{
+  const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     setIsSubmitting(true);
     try {
       const res = await axios.post<ApiResponse>("/api/signup", data);
       toast({
-        title: 'Success',
+        title: "Success",
         description: res.data.message,
-      })
+      });
       router.replace(`/verify/${username}`);
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     } catch (error) {
-      console.error("Error in signup of user",error);
+      console.error("Error in signup of user", error);
       const axiosError = error as AxiosError<ApiResponse>;
-      let errorMessage = axiosError.response
+      let errorMessage = axiosError.response?.data.message;
+      toast({
+        title: "Sign up failed ",
+        description: errorMessage,
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
     } finally {
       setIsSubmitting(false);
     }
-  }
+  };
   return <div></div>;
 };
 
