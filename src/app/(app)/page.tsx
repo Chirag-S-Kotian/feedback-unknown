@@ -15,6 +15,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Message } from "@/model/User.model";
 
 export default function Home() {
   return (
@@ -36,7 +37,7 @@ export default function Home() {
           className="w-full max-w-lg md:max-w-xl"
         >
           <CarouselContent>
-            {messages.map((message, index) => (
+            {messages.map((message: Message, index: number) => (
               <CarouselItem key={index} className="p-4">
                 <Card>
                   <CardHeader>
